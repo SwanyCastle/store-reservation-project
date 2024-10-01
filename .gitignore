@@ -36,6 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 
+### Environment Variable ###
+.env
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/gradle,java,intellij,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=gradle,java,intellij,macos
