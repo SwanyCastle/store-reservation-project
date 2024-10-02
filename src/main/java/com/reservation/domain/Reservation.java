@@ -1,5 +1,6 @@
 package com.reservation.domain;
 
+import com.reservation.type.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,14 +19,31 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "shop_id", nullable = false)
     private Shop shop;
 
     @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    private boolean isVisited;
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
+
+    private boolean isVisited = false;
+    @Column(nullable = false)
     private LocalDateTime reservationDate;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
