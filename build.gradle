@@ -36,6 +36,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
     implementation 'com.mysql:mysql-connector-j:8.3.0'
+
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.17.2'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.3'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 }
 
 tasks.named('test') {

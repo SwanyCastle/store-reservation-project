@@ -1,15 +1,22 @@
 spring:
+
   config:
     import: optional:file:.env[.properties]
+
   application:
     name: Reservation
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?serverTimezone=UTC&characterEncoding=UTF-8
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     database: mysql
+
+  jwt:
+    secret: ${JWT_SECRET}
