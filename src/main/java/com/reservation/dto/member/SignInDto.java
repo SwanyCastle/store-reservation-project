@@ -1,4 +1,4 @@
-package com.reservation.dto;
+package com.reservation.dto.member;
 
 import lombok.*;
 

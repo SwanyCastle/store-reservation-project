@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 관리 정책 설정
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/members/signin", "/api/v1/members/signup").permitAll()  // 누구나 접근 가능한 URL
+                        .requestMatchers("/api/v1/members/register", "/api/v1/members/login").permitAll()  // 누구나 접근 가능한 URL
                         .anyRequest().authenticated()  // 그 외의 모든 요청은 인증 필요
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

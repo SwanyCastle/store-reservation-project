@@ -1,8 +1,8 @@
 package com.reservation.service;
 
 import com.reservation.domain.Member;
-import com.reservation.dto.MemberDto;
-import com.reservation.dto.SignInDto;
+import com.reservation.dto.member.MemberDto;
+import com.reservation.dto.member.SignInDto;
 import com.reservation.exception.MemberException;
 import com.reservation.repository.MemberRepository;
 import com.reservation.type.ErrorCode;
@@ -33,7 +33,7 @@ public class MemberService {
      * @param role
      * @return
      */
-    public MemberDto registerMember(String username, String password, Role role) {
+    public MemberDto createMember(String username, String password, Role role) {
         checkExistsMember(username);
 
         String encodePassword = getEncodePassword(password);

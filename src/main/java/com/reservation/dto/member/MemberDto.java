@@ -1,4 +1,4 @@
-package com.reservation.dto;
+package com.reservation.dto.member;
 
 import com.reservation.domain.Member;
 import com.reservation.type.Role;

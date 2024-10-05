@@ -1,9 +1,9 @@
 package com.reservation.controller;
 
 import com.reservation.domain.Member;
-import com.reservation.dto.MemberDto;
-import com.reservation.dto.SignInDto;
-import com.reservation.dto.SignUpDto;
+import com.reservation.dto.member.MemberDto;
+import com.reservation.dto.member.SignInDto;
+import com.reservation.dto.member.SignUpDto;
 import com.reservation.security.TokenProvider;
 import com.reservation.service.MemberService;
 import jakarta.validation.Valid;
@@ -27,16 +27,14 @@ public class MemberController {
      * @param request
      * @return CreateMemberDTO.Response
      */
-    @PostMapping("/signup")
-    public SignUpDto.Response memberRegister(
+    @PostMapping("/register")
+    public MemberDto memberRegister(
             @RequestBody @Valid SignUpDto.Request request
     ) {
-        return SignUpDto.Response.fromMemberDto(
-                memberService.registerMember(
-                        request.getUsername(),
-                        request.getPassword(),
-                        request.getRole()
-                )
+        return memberService.createMember(
+                request.getUsername(),
+                request.getPassword(),
+                request.getRole()
         );
     }
 
@@ -45,7 +43,7 @@ public class MemberController {
      * @param request
      * @return SignInDto.Response
      */
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public SignInDto.Response memberSignIn(
             @RequestBody @Valid SignInDto.Request request
     ) {

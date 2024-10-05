@@ -19,7 +19,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
+    private Store store;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)

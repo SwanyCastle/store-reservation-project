@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Shop {
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String shopName;
+    private String storeName;
     @Column(nullable = false)
-    private String address;
+    private String storeAddress;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
