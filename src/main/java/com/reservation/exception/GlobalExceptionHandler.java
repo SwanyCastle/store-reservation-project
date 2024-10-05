@@ -19,7 +19,31 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MemberException.class)
     public ResponseEntity<ErrorResponse> handleMemberException(MemberException e) {
-        log.error("{} is occured.", e.getErrorCode());
+        log.error("{} is occured. (member)", e.getErrorCode());
+
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(StoreException.class)
+    public ResponseEntity<ErrorResponse> handleStoreException(StoreException e) {
+        log.error("{} is occured.(store)", e.getErrorCode());
+
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ReviewException.class)
+    public ResponseEntity<ErrorResponse> handleReviewException(ReviewException e) {
+        log.error("{} is occured.(review)", e.getErrorCode());
+
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ReservationException.class)
+    public ResponseEntity<ErrorResponse> handleReservationException(ReservationException e) {
+        log.error("{} is occured.(reservation)", e.getErrorCode());
 
         ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

@@ -7,12 +7,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @Builder
-public class MemberException extends RuntimeException {
+public class ReservationException extends RuntimeException {
 
     private final ErrorCode errorCode;
     private final String errorMessage;
 
-    public MemberException(ErrorCode errorCode) {
+    public ReservationException(ErrorCode errorCode) {
         this.errorCode = errorCode;
         this.errorMessage = errorCode.getDescription();
     }

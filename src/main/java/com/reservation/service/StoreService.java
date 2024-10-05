@@ -20,20 +20,30 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final MemberService memberService;
 
+    /**
+     * 가게 정보 등록
+     * @param request
+     * @return StoreDto.Response
+     */
     public StoreDto.Response createStore(StoreDto.Request request) {
-        Member member = memberService.findMember(request.getMemberId());
+        Member member = memberService.getMemberById(request.getMemberId());
 
         return StoreDto.Response.fromEntity(
                 storeRepository.save(
                         Store.builder()
                                 .storeName(request.getStoreName())
                                 .storeAddress(request.getStoreAddress())
+                                .capacityPerson(request.getCapacityPerson())
                                 .member(member)
                                 .build()
                 )
         );
     }
 
+    /**
+     * 전체 가게 목록
+     * @return List<StoreDto.Response>
+     */
     public List<StoreDto.Response> getStores() {
         List<Store> storeList = storeRepository.findAll();
 
@@ -42,12 +52,23 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 특정 가게 정보
+     * @param storeId
+     * @return Store
+     */
     public Store getStoreById(Long storeId) {
         return storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(ErrorCode.STORE_NOT_FOUND));
     }
 
-    public Store updateStore(Long storeId, UpdateStoreDto updateRequest) {
+    /**
+     * 특정 가게 정보 수정
+     * @param storeId
+     * @param updateRequest
+     * @return StoreDto.Response
+     */
+    public StoreDto.Response updateStore(Long storeId, UpdateStoreDto updateRequest) {
         Store store = getStoreById(storeId);
 
         if (!updateRequest.getStoreName().isEmpty()) {
@@ -58,11 +79,16 @@ public class StoreService {
             store.setStoreAddress(updateRequest.getStoreAddress());
         }
 
-        return storeRepository.save(store);
+        return StoreDto.Response.fromEntity(
+                storeRepository.save(store)
+        );
     }
 
+    /**
+     * 특정 가게 정보 삭제
+     * @param storeId
+     */
     public void deleteStore(Long storeId) {
-        Store store = getStoreById(storeId);
-        storeRepository.delete(store);
+        storeRepository.deleteById(storeId);
     }
 }

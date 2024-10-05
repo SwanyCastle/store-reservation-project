@@ -27,7 +27,7 @@ public class Store {
     private Member member;
 
     @Column(nullable = false)
-    private boolean isReservationPossible;
+    private Integer capacityPerson;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

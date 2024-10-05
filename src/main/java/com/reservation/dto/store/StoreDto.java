@@ -29,6 +29,10 @@ public class StoreDto {
         @NotBlank
         private Long memberId;
 
+        @NotNull
+        @NotBlank
+        private Integer capacityPerson;
+
     }
 
     @Getter
@@ -47,11 +51,13 @@ public class StoreDto {
         private LocalDateTime updatedAt;
 
         public static StoreDto.Response fromEntity(Store store) {
-            return StoreDto.Response.builder()
+            return Response.builder()
                     .shopId(store.getId())
                     .storeName(store.getStoreName())
                     .storeAddress(store.getStoreAddress())
                     .member(MemberDto.fromEntity(store.getMember()))
+                    .createdAt(store.getCreatedAt())
+                    .updatedAt(store.getUpdatedAt())
                     .build();
         }
 

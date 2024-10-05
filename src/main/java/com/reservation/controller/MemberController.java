@@ -65,7 +65,7 @@ public class MemberController {
     @GetMapping("/{userId}")
     public MemberDto findMember(@PathVariable @Valid Long userId) {
         return MemberDto.fromEntity(
-                memberService.findMember(userId)
+                memberService.getMemberById(userId)
         );
     }
 }

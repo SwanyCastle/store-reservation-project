@@ -66,7 +66,7 @@ public class TokenProvider {
      * @return
      */
     public Authentication getAuthentication(String jwt) {
-        UserDetails userDetails = this.memberService.loadUserByUsername(this.getUsername(jwt));
+        UserDetails userDetails = this.memberService.getMemberByUsername(this.getUsername(jwt));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

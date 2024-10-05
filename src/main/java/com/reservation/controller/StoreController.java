@@ -18,6 +18,11 @@ public class StoreController {
 
     private final StoreService storeService;
 
+    /**
+     * 가게 등록
+     * @param request
+     * @return StoreDto.Response
+     */
     @PostMapping
     @PreAuthorize("hasRole('OWNER')")
     public StoreDto.Response storeRegister(
@@ -26,11 +31,20 @@ public class StoreController {
         return storeService.createStore(request);
     }
 
+    /**
+     * 전체 가게 리스트
+     * @return List<StoreDto.Response>
+     */
     @GetMapping
     public List<StoreDto.Response> storeList() {
         return storeService.getStores();
     }
 
+    /**
+     * 특정 가게 정보
+     * @param storeId
+     * @return StoreDto.Response
+     */
     @GetMapping("/{storeId}")
     public StoreDto.Response storeDetails(@PathVariable @Valid Long storeId) {
         return StoreDto.Response.fromEntity(
@@ -38,17 +52,26 @@ public class StoreController {
         );
     }
 
+    /**
+     * 특정 가게 정보 수정
+     * @param storeId
+     * @param updateRequest
+     * @return StoreDto.Response
+     */
     @PatchMapping("/{storeId}")
     @PreAuthorize("hasRole('OWNER')")
     public StoreDto.Response updateStore(
             @PathVariable @Valid Long storeId,
             @RequestBody @Valid UpdateStoreDto updateRequest
     ) {
-        return StoreDto.Response.fromEntity(
-                storeService.updateStore(storeId, updateRequest)
-        );
+        return storeService.updateStore(storeId, updateRequest);
     }
 
+    /**
+     * 특정 가게 정보 삭제
+     * @param storeId
+     * @return ResponseEntity<String>
+     */
     @DeleteMapping("/{storeId}")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<String> deleteStore(@PathVariable @Valid Long storeId) {

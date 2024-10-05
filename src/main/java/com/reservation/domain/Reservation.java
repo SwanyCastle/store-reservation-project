@@ -29,7 +29,11 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
+    @Column(nullable = false)
+    private Integer visitorNum;
+
     private boolean isVisited = false;
+
     @Column(nullable = false)
     private LocalDateTime reservationDate;
 

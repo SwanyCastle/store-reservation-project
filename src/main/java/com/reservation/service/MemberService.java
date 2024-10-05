@@ -3,6 +3,7 @@ package com.reservation.service;
 import com.reservation.domain.Member;
 import com.reservation.dto.member.MemberDto;
 import com.reservation.dto.member.SignInDto;
+import com.reservation.dto.member.UpdateMemberDto;
 import com.reservation.exception.MemberException;
 import com.reservation.repository.MemberRepository;
 import com.reservation.type.ErrorCode;
@@ -75,7 +76,7 @@ public class MemberService {
      * @param username
      * @return UserDetails
      */
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails getMemberByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다. " + username));
     }
@@ -86,7 +87,7 @@ public class MemberService {
      * @return Member
      */
     public Member authenticate(SignInDto.Request singInMember) {
-        Member member = (Member) loadUserByUsername(singInMember.getUsername());
+        Member member = (Member) getMemberByUsername(singInMember.getUsername());
 
         if (!passwordEncoder.matches(singInMember.getPassword(), member.getPassword())) {
             throw new MemberException(ErrorCode.PASSWORD_UNMATCHED);
@@ -96,12 +97,42 @@ public class MemberService {
     }
 
     /**
-     * Member id 로 유저 정보 검색
-     * @param userId
-     * @return
+     * ID 로 유저 정보 조회
+     * @param memberId
+     * @return Member
      */
-    public Member findMember(Long userId) {
-        return memberRepository.findById(userId)
+    public Member getMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    /**
+     * 특정 유저 정보 수정
+     * @param memberId
+     * @param updateRequest
+     * @return MemberDto
+     */
+    public MemberDto updateMember(Long memberId, UpdateMemberDto updateRequest) {
+        Member member = getMemberById(memberId);
+
+        if (updateRequest.getUsername() != null) {
+            member.setUsername(updateRequest.getUsername());
+        }
+
+        if (updateRequest.getPassword() != null) {
+            member.setPassword(getEncodePassword(updateRequest.getPassword()));
+        }
+
+        return MemberDto.fromEntity(
+                memberRepository.save(member)
+        );
+    }
+
+    /**
+     * 특정 유저 정보 삭제
+     * @param memberId
+     */
+    public void deleteMember(Long memberId) {
+        memberRepository.deleteById(memberId);
     }
 }
