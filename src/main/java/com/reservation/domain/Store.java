@@ -29,6 +29,8 @@ public class Store {
     @Column(nullable = false)
     private Integer capacityPerson;
 
+    private Double rating;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

@@ -3,6 +3,7 @@ package com.reservation.domain;
 import com.reservation.type.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,8 @@ public class Member implements UserDetails {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String phoneNumber;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

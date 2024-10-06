@@ -41,7 +41,7 @@ public class StoreService {
     }
 
     /**
-     * 전체 가게 목록
+     * 전체 가게 목록 조회
      * @return List<StoreDto.Response>
      */
     public List<StoreDto.Response> getStores() {
@@ -53,7 +53,7 @@ public class StoreService {
     }
 
     /**
-     * 특정 가게 정보
+     * 특정 가게 정보 조회
      * @param storeId
      * @return Store
      */

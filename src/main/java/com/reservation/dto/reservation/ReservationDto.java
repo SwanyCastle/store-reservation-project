@@ -41,7 +41,7 @@ public class ReservationDto {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
 
-        public ReservationDto.Response fromEntity(Reservation reservation) {
+        public static ReservationDto.Response fromEntity(Reservation reservation) {
             return Response.builder()
                     .reservationId(reservation.getId())
                     .member(reservation.getMember())

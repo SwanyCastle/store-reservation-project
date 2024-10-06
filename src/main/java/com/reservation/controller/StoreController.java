@@ -32,7 +32,7 @@ public class StoreController {
     }
 
     /**
-     * 전체 가게 리스트
+     * 전체 가게 목록
      * @return List<StoreDto.Response>
      */
     @GetMapping
@@ -41,7 +41,7 @@ public class StoreController {
     }
 
     /**
-     * 특정 가게 정보
+     * 특정 가게 정보 조회
      * @param storeId
      * @return StoreDto.Response
      */
