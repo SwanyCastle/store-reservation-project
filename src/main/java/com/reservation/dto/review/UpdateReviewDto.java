@@ -10,5 +10,6 @@ import lombok.*;
 public class UpdateReviewDto {
 
     private String content;
+    private Double rating;
 
 }

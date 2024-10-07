@@ -19,7 +19,7 @@ public class Reservation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
     @ManyToOne

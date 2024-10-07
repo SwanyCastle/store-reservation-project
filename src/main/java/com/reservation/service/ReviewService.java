@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,15 +32,37 @@ public class ReviewService {
         Member member = memberService.getMemberById(request.getMemberId());
         Store store = storeService.getStoreById(request.getStoreId());
 
+        checkExistsReview(member, store);
+
+        storeService.updateStoreRating(
+                request.getStoreId(), getRatingAverage(request.getStoreId())
+        );
+
         return ReviewDto.Response.fromEntity(
                 reviewRepository.save(
                         Review.builder()
                                 .member(member)
                                 .store(store)
                                 .content(request.getContent())
+                                .rating(request.getRating())
                                 .build()
                 )
         );
+    }
+
+    /**
+     * 리뷰 중복 체크
+     * @param member
+     * @param store
+     */
+    public void checkExistsReview(Member member, Store store) {
+        Optional<Review> review =
+                reviewRepository.findByMemberAndStore(member, store);
+
+        if (review.isPresent()) {
+            throw new ReviewException(ErrorCode.REVIEW_ALREADY_EXISTS);
+        }
+
     }
 
     /**
@@ -92,6 +115,14 @@ public class ReviewService {
             review.setContent(updateRequest.getContent());
         }
 
+        if (updateRequest.getRating() != null) {
+            review.setRating(updateRequest.getRating());
+            storeService.updateStoreRating(
+                    review.getStore().getId(),
+                    getRatingAverage(review.getStore().getId())
+            );
+        }
+
         return ReviewDto.Response.fromEntity(
                 reviewRepository.save(review)
         );
@@ -103,5 +134,16 @@ public class ReviewService {
      */
     public void deleteReview(Long reviewId) {
         reviewRepository.deleteById(reviewId);
+    }
+
+    /**
+     * 특정 가게에 대한 리뷰 평균값 조회
+     * @param storeId
+     * @return
+     */
+    public Double getRatingAverage(Long storeId) {
+        Store store = storeService.getStoreById(storeId);
+        Double avgRatingByStore = reviewRepository.avgRatingByStore(store);
+        return avgRatingByStore != null ? avgRatingByStore : 0.0;
     }
 }

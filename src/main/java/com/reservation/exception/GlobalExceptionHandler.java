@@ -49,6 +49,24 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(KakaoException.class)
+    public ResponseEntity<ErrorResponse> handleKakaoException(KakaoException e) {
+        log.error("{} is occured.(kakao)", e.getErrorCode());
+
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode(), e.getErrorMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+//    @ExceptionHandler(NullPointerException.class)
+//    public ResponseEntity<ErrorResponse> handleNullPointerException(NullPointerException e) {
+//        log.error("NullPointerException is occured.");
+//
+//        ErrorResponse errorResponse = new ErrorResponse(
+//                INVALID_REQUEST, INVALID_REQUEST.getDescription()
+//        );
+//        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+//    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("HttpMessageNotReadableException is occured.");

@@ -11,5 +11,6 @@ public class UpdateMemberDto {
 
     private String username;
     private String password;
+    private String phoneNumber;
 
 }

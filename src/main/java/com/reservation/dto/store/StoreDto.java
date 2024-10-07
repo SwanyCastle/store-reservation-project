@@ -26,11 +26,9 @@ public class StoreDto {
         private String storeAddress;
 
         @NotNull
-        @NotBlank
         private Long memberId;
 
         @NotNull
-        @NotBlank
         private Integer capacityPerson;
 
     }
@@ -46,6 +44,9 @@ public class StoreDto {
         private String storeName;
         private String storeAddress;
         private MemberDto member;
+        private Double rating;
+        private Double latitude;
+        private Double longitude;
 
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -56,6 +57,9 @@ public class StoreDto {
                     .storeName(store.getStoreName())
                     .storeAddress(store.getStoreAddress())
                     .member(MemberDto.fromEntity(store.getMember()))
+                    .rating(Double.parseDouble(String.format("%.1f", store.getRating())))
+                    .latitude(store.getLatitude())
+                    .longitude(store.getLongitude())
                     .createdAt(store.getCreatedAt())
                     .updatedAt(store.getUpdatedAt())
                     .build();

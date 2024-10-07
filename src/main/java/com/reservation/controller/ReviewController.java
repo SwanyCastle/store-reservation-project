@@ -36,7 +36,7 @@ public class ReviewController {
      * @param storeId
      * @return
      */
-    @GetMapping("/{storeId}")
+    @GetMapping("/store/{storeId}")
     public List<ReviewDto.Response> reviewListByStoreId(
             @PathVariable @Valid Long storeId
     ) {
@@ -48,7 +48,7 @@ public class ReviewController {
      * @param memberId
      * @return
      */
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     @PreAuthorize("hasRole('USER')")
     public List<ReviewDto.Response> reviewListByMemberId(
             @PathVariable @Valid Long memberId

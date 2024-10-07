@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/reservation")
+@RequestMapping("/api/v1/reservations")
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -24,21 +25,28 @@ public class ReservationController {
      * @return ReservationDto.Response
      */
     @PostMapping
-    public ReservationDto.Response reservationRegister(ReservationDto.Request request) {
+    @PreAuthorize("hasRole('USER')")
+    public ReservationDto.Response reservationRegister(
+            @RequestBody @Valid ReservationDto.Request request) {
         return reservationService.createReservation(request);
     }
 
     /**
-     * 특정 가게에 대한 예약 목록 조회
+     * 특정 가게에 대한 예약 목록 전체 조회
      * @param storeId
      * @return List<ReservationDto.Response>
      */
-    @GetMapping("/{storeId}")
+    @GetMapping("/store/{storeId}")
     @PreAuthorize("hasRole('OWNER')")
     public List<ReservationDto.Response> reservationList(
-            @PathVariable @Valid Long storeId
+            @PathVariable Long storeId,
+            @RequestParam(required = false) String date
     ) {
-        return reservationService.getReservationsByStoreId(storeId);
+        LocalDate localDate = null;
+        if (!date.isEmpty()) {
+            localDate = LocalDate.parse(date);
+        }
+        return reservationService.getReservationsByStoreId(storeId, localDate);
     }
 
     /**
@@ -48,7 +56,7 @@ public class ReservationController {
      */
     @GetMapping("/{reservationId}")
     public ReservationDto.Response reservationDetails(
-            @PathVariable @Valid Long reservationId
+            @PathVariable Long reservationId
     ) {
         return ReservationDto.Response.fromEntity(
                 reservationService.getReservationById(reservationId)
@@ -63,7 +71,7 @@ public class ReservationController {
     @PatchMapping("/{reservationId}/confirm")
     @PreAuthorize("hasRole('OWNER')")
     public ReservationDto.Response reservationConfirm(
-            @PathVariable @Valid Long reservationId
+            @PathVariable Long reservationId
     ) {
         return reservationService.confirmReservation(reservationId);
     }
@@ -76,7 +84,7 @@ public class ReservationController {
     @PatchMapping("/{reservationId}/reject")
     @PreAuthorize("hasRole('OWNER')")
     public ReservationDto.Response reservationReject(
-            @PathVariable @Valid Long reservationId
+            @PathVariable Long reservationId
     ) {
         return reservationService.rejectReservation(reservationId);
     }
@@ -86,12 +94,13 @@ public class ReservationController {
      * @param reservationId
      * @return ReservationDto.Response
      */
-    @PatchMapping("/{reservationId}/visit")
+    @PatchMapping("/{reservationId}/visit/{memberId}")
     @PreAuthorize("hasRole('USER')")
     public ReservationDto.Response reservationVisit(
-            @PathVariable @Valid Long reservationId
+            @PathVariable Long reservationId,
+            @PathVariable Long memberId
     ) {
-        return reservationService.visitReservation(reservationId);
+        return reservationService.visitReservation(reservationId, memberId);
     }
 
     /**
@@ -101,8 +110,9 @@ public class ReservationController {
      * @return ReservationDto.Response
      */
     @PatchMapping("/{reservationId}")
+    @PreAuthorize("hasRole('USER')")
     public ReservationDto.Response updateReservation(
-            @PathVariable @Valid Long reservationId,
+            @PathVariable Long reservationId,
             @RequestBody @Valid UpdateReservationDto updateRequest
     ) {
         return reservationService.reservationUpdate(reservationId, updateRequest);
@@ -115,7 +125,7 @@ public class ReservationController {
      */
     @DeleteMapping("/{reservationId}")
     public ResponseEntity<String> deleteReservation(
-            @PathVariable @Valid Long reservationId
+            @PathVariable Long reservationId
     ) {
         reservationService.reservationDelete(reservationId);
         return ResponseEntity.ok("정상적으로 삭제 되었습니다.");

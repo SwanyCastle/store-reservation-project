@@ -31,6 +31,11 @@ public class Store {
 
     private Double rating;
 
+    @Column(nullable = false)
+    private Double latitude;
+    @Column(nullable = false)
+    private Double longitude;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

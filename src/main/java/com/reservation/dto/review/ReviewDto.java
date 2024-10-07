@@ -19,16 +19,17 @@ public class ReviewDto {
     public static class Request {
 
         @NotNull
-        @NotBlank
         private Long memberId;
 
         @NotNull
-        @NotBlank
         private Long storeId;
 
         @NotNull
         @NotBlank
         private String content;
+
+        @NotNull
+        private Double rating;
 
     }
 
@@ -43,6 +44,7 @@ public class ReviewDto {
         private MemberDto member;
         private StoreDto.Response store;
         private String content;
+        private Double rating;
 
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -53,6 +55,7 @@ public class ReviewDto {
                     .member(MemberDto.fromEntity(review.getMember()))
                     .store(StoreDto.Response.fromEntity(review.getStore()))
                     .content(review.getContent())
+                    .rating(review.getRating())
                     .createdAt(review.getCreatedAt())
                     .updatedAt(review.getUpdatedAt())
                     .build();

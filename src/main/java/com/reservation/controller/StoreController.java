@@ -32,13 +32,25 @@ public class StoreController {
     }
 
     /**
-     * 전체 가게 목록
+     * 전체 가게 목록 (가나다, 평점, 거리순 정렬)
      * @return List<StoreDto.Response>
      */
     @GetMapping
-    public List<StoreDto.Response> storeList() {
-        return storeService.getStores();
+    public List<StoreDto.Response> storeList(
+            @RequestParam(required = false, defaultValue = "name") String sortType,
+            @RequestParam(required = false) Double userLat,
+            @RequestParam(required = false) Double userLng
+    ) {
+        switch (sortType) {
+            case "distance":
+                return storeService.getStoresSortedByDistance(userLat, userLng);
+            case "rating":
+                return storeService.getStoresSortedByRating();
+            default:
+                return storeService.getStoresSortedByName();
+        }
     }
+
 
     /**
      * 특정 가게 정보 조회

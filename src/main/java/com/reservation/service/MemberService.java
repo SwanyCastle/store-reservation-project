@@ -3,11 +3,11 @@ package com.reservation.service;
 import com.reservation.domain.Member;
 import com.reservation.dto.member.MemberDto;
 import com.reservation.dto.member.SignInDto;
+import com.reservation.dto.member.SignUpDto;
 import com.reservation.dto.member.UpdateMemberDto;
 import com.reservation.exception.MemberException;
 import com.reservation.repository.MemberRepository;
 import com.reservation.type.ErrorCode;
-import com.reservation.type.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,10 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-/**
- * 유저 생성, 수정, 삭제
- * 기능을 위한 Service 처리
- */
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -28,23 +24,22 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     /**
-     * 회원 가입 기능
-     * @param username
-     * @param password
-     * @param role
-     * @return
+     * 회원 가입
+     * @param request
+     * @return MemberDto
      */
-    public MemberDto createMember(String username, String password, Role role) {
-        checkExistsMember(username);
+    public MemberDto createMember(SignUpDto.Request request) {
+        checkExistsMember(request.getUsername());
 
-        String encodePassword = getEncodePassword(password);
+        String encodePassword = getEncodePassword(request.getPassword());
 
         return MemberDto.fromEntity(
                 memberRepository.save(
                         Member.builder()
-                                .username(username)
+                                .username(request.getUsername())
                                 .password(encodePassword)
-                                .role(role)
+                                .phoneNumber(request.getPhoneNumber())
+                                .role(request.getRole())
                                 .build()
                 )
         );
@@ -121,6 +116,10 @@ public class MemberService {
 
         if (updateRequest.getPassword() != null) {
             member.setPassword(getEncodePassword(updateRequest.getPassword()));
+        }
+
+        if (updateRequest.getPhoneNumber() != null) {
+            member.setPhoneNumber(updateRequest.getPhoneNumber());
         }
 
         return MemberDto.fromEntity(

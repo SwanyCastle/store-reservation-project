@@ -11,5 +11,6 @@ public class UpdateStoreDto {
 
     private String storeName;
     private String storeAddress;
+    private Integer capacityPerson;
 
 }

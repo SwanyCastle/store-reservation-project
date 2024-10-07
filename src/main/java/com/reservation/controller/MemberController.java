@@ -4,16 +4,14 @@ import com.reservation.domain.Member;
 import com.reservation.dto.member.MemberDto;
 import com.reservation.dto.member.SignInDto;
 import com.reservation.dto.member.SignUpDto;
+import com.reservation.dto.member.UpdateMemberDto;
 import com.reservation.security.TokenProvider;
 import com.reservation.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- *  유저 생성, 수정, 삭제
- *  기능을 위한 Controller 처리
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
@@ -31,11 +29,7 @@ public class MemberController {
     public MemberDto memberRegister(
             @RequestBody @Valid SignUpDto.Request request
     ) {
-        return memberService.createMember(
-                request.getUsername(),
-                request.getPassword(),
-                request.getRole()
-        );
+        return memberService.createMember(request);
     }
 
     /**
@@ -58,14 +52,40 @@ public class MemberController {
     }
 
     /**
-     * id 로 유저 정보 검색
+     * 특정 유저 정보 조회
      * @param userId
      * @return MemberDto
      */
     @GetMapping("/{userId}")
-    public MemberDto findMember(@PathVariable @Valid Long userId) {
+    public MemberDto findMember(@PathVariable Long userId) {
         return MemberDto.fromEntity(
                 memberService.getMemberById(userId)
         );
     }
+
+    /**
+     * 특정 유저 정보 수정
+     * @param userId
+     * @param updateRequest
+     * @return MemberDto
+     */
+    @PatchMapping("/{userId}")
+    public MemberDto updateMember(
+            @PathVariable Long userId,
+            @RequestBody @Valid UpdateMemberDto updateRequest
+            ) {
+        return memberService.updateMember(userId, updateRequest);
+    }
+
+    /**
+     * 특정 유저 정보 삭제
+     * @param userId
+     * @return ResponseEntity<String>
+     */
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteMember(@PathVariable Long userId) {
+        memberService.deleteMember(userId);
+        return ResponseEntity.ok("정상적으로 삭제 되었습니다.");
+    }
+
 }

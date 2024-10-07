@@ -18,7 +18,7 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
     @ManyToOne
@@ -27,6 +27,9 @@ public class Review {
 
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private Double rating;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

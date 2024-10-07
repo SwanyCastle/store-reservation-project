@@ -12,9 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class UpdateReservationDto {
 
-    private ReservationStatus status;
     private Integer visitorNum;
-    private boolean isVisited;
     private LocalDateTime reservationDate;
 
 }

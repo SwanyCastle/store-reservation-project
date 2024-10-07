@@ -1,8 +1,8 @@
 package com.reservation.dto.reservation;
 
-import com.reservation.domain.Member;
 import com.reservation.domain.Reservation;
-import com.reservation.domain.Store;
+import com.reservation.dto.member.MemberDto;
+import com.reservation.dto.store.StoreDto;
 import com.reservation.type.ReservationStatus;
 import lombok.*;
 
@@ -18,7 +18,7 @@ public class ReservationDto {
     public static class Request {
 
         private Long memberId;
-        private Long shopId;
+        private Long storeId;
         private Integer visitorNum;
         private LocalDateTime reservationDate;
 
@@ -32,8 +32,8 @@ public class ReservationDto {
     public static class Response {
 
         private Long reservationId;
-        private Member member;
-        private Store store;
+        private MemberDto member;
+        private StoreDto.Response store;
         private Integer visitorNum;
         private boolean isVisited;
         private ReservationStatus status;
@@ -44,8 +44,8 @@ public class ReservationDto {
         public static ReservationDto.Response fromEntity(Reservation reservation) {
             return Response.builder()
                     .reservationId(reservation.getId())
-                    .member(reservation.getMember())
-                    .store(reservation.getStore())
+                    .member(MemberDto.fromEntity(reservation.getMember()))
+                    .store(StoreDto.Response.fromEntity(reservation.getStore()))
                     .visitorNum(reservation.getVisitorNum())
                     .isVisited(reservation.isVisited())
                     .status(reservation.getStatus())

@@ -16,6 +16,7 @@ public class MemberDto {
     private Long memberId;
     private String username;
     private Role role;
+    private String phoneNumber;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -25,6 +26,7 @@ public class MemberDto {
                 .memberId(member.getId())
                 .username(member.getUsername())
                 .role(member.getRole())
+                .phoneNumber(member.getPhoneNumber())
                 .createdAt(member.getCreatedAt())
                 .updatedAt(member.getUpdatedAt())
                 .build();
