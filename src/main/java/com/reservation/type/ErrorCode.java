@@ -12,6 +12,7 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND("사용자가 존재하지 않습니다."),
     REVIEW_NOT_FOUND("리뷰가 존재하지 않습니다."),
     REVIEW_ALREADY_EXISTS("리뷰가 이미 존재 합니다."),
+    REVIEW_NO_AUTHORIZATION("리뷰 작성할 권한이 없습니다."),
     RESERVATION_NOT_FOUND("예약이 존재하지 않습니다."),
     RESERVATION_ALREADY_EXISTS("예약이 이미 존재 합니다."),
     RESERVATION_IMPOSSIBLE("예약할 수 없습니다."),

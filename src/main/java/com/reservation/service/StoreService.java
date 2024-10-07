@@ -41,6 +41,7 @@ public class StoreService {
                         Store.builder()
                                 .storeName(request.getStoreName())
                                 .storeAddress(request.getStoreAddress())
+                                .description(request.getDescription())
                                 .member(member)
                                 .rating(0.0)
                                 .capacityPerson(request.getCapacityPerson())

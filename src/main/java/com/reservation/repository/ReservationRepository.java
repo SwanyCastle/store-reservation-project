@@ -22,6 +22,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             Member member, Store store, LocalDateTime reservationDate
     );
 
+    Optional<Reservation> findByMemberAndStore(
+            Member member, Store store
+    );
+
     @Query("SELECT COALESCE(SUM(r.visitorNum), 0) FROM Reservation r WHERE r.store = :store")
     Integer sumVisitorNumByStore(@Param("store") Store store);
 

@@ -41,14 +41,12 @@ public class StoreController {
             @RequestParam(required = false) Double userLat,
             @RequestParam(required = false) Double userLng
     ) {
-        switch (sortType) {
-            case "distance":
-                return storeService.getStoresSortedByDistance(userLat, userLng);
-            case "rating":
-                return storeService.getStoresSortedByRating();
-            default:
-                return storeService.getStoresSortedByName();
-        }
+        return switch (sortType) {
+            case "distance" ->
+                    storeService.getStoresSortedByDistance(userLat, userLng);
+            case "rating" -> storeService.getStoresSortedByRating();
+            default -> storeService.getStoresSortedByName();
+        };
     }
 
 

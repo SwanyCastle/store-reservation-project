@@ -25,6 +25,8 @@ public class StoreDto {
         @NotBlank
         private String storeAddress;
 
+        private String description;
+
         @NotNull
         private Long memberId;
 
@@ -43,6 +45,7 @@ public class StoreDto {
         private Long shopId;
         private String storeName;
         private String storeAddress;
+        private String description;
         private MemberDto member;
         private Double rating;
         private Double latitude;
@@ -56,6 +59,7 @@ public class StoreDto {
                     .shopId(store.getId())
                     .storeName(store.getStoreName())
                     .storeAddress(store.getStoreAddress())
+                    .description(store.getDescription())
                     .member(MemberDto.fromEntity(store.getMember()))
                     .rating(Double.parseDouble(String.format("%.1f", store.getRating())))
                     .latitude(store.getLatitude())

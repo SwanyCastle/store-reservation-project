@@ -21,6 +21,7 @@ public class Store {
     private String storeName;
     @Column(nullable = false)
     private String storeAddress;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)

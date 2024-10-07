@@ -282,4 +282,19 @@ public class ReservationService {
         Reservation reservation = getReservationById(reservationId);
         reservationRepository.delete(reservation);
     }
+
+    /**
+     * 가게에 방문 했는지 확인
+     * @param member
+     * @param store
+     * @return boolean
+     */
+    public boolean checkReservationVisited(Member member, Store store) {
+        Optional<Reservation> reservationOptional =
+                reservationRepository.findByMemberAndStore(member, store);
+        Reservation reservation = reservationOptional.get();
+
+        return reservation.isVisited() ||
+                !reservation.getReservationDate().isBefore(LocalDateTime.now());
+    }
 }

@@ -21,10 +21,12 @@ public class ReviewService {
 
     private final MemberService memberService;
     private final StoreService storeService;
+    private final ReservationService reservationService;
     private final ReviewRepository reviewRepository;
 
     /**
      * 리뷰 등록
+     * 방문한 고객인지 확인 및 이미 리뷰가 존재하는지 확인
      * @param request
      * @return ReviewDto.Response
      */
@@ -32,6 +34,9 @@ public class ReviewService {
         Member member = memberService.getMemberById(request.getMemberId());
         Store store = storeService.getStoreById(request.getStoreId());
 
+        if (reservationService.checkReservationVisited(member, store)) {
+            throw new ReviewException(ErrorCode.REVIEW_NO_AUTHORIZATION);
+        }
         checkExistsReview(member, store);
 
         storeService.updateStoreRating(
@@ -111,6 +116,10 @@ public class ReviewService {
     public ReviewDto.Response updateReview(Long reviewId, UpdateReviewDto updateRequest) {
         Review review = getReviewById(reviewId);
 
+        if (reservationService.checkReservationVisited(review.getMember(), review.getStore())) {
+            throw new ReviewException(ErrorCode.REVIEW_NO_AUTHORIZATION);
+        }
+
         if (updateRequest.getContent() != null) {
             review.setContent(updateRequest.getContent());
         }
@@ -146,4 +155,5 @@ public class ReviewService {
         Double avgRatingByStore = reviewRepository.avgRatingByStore(store);
         return avgRatingByStore != null ? avgRatingByStore : 0.0;
     }
+
 }
