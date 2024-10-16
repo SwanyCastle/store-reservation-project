@@ -100,6 +100,10 @@
 <br>
 <br>
 
+# ERD
+<img width="893" alt="스크린샷 2024-10-16 오후 8 47 17" src="https://github.com/user-attachments/assets/37bf9201-6e82-47f5-92bf-9ed6e60af5bc">
+
+
 # API 스펙
 <table>
   <thead>
